@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "start": "heatpack index.js"
+  },
+  "dependencies": {
+    "bootstrap": "3.3.5",
+    "react": "0.13.3",
+    "react-bootstrap": "0.25.2",
+    "react-redux": "2.1.2",
+    "react-widgets": "2.8.1",
+    "redux": "3.0.0",
+    "redux-form": "1.6.7"
+  },
+  "devDependencies": {
+    "react-heatpack": "^1.5.0"
+  }
+}
