@@ -3,13 +3,13 @@ require('./LoadingButton.css')
 var React = require('react')
 var Button = require('react-bootstrap/lib/Button')
 
-var Loading = require('Loading')
+var Loading = require('./Loading')
 
 var LoadingButton = React.createClass({
   propTypes: {
     label: React.PropTypes.string.isRequired,
     loading: React.PropTypes.bool.isRequired,
-    icom: React.PropTypes.string,
+    icon: React.PropTypes.string,
     // Defaults to label + 'ing' if not provided
     loadingLabel: React.PropTypes.string
   },

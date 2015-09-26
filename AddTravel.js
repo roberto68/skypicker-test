@@ -1,4 +1,5 @@
 var Col = require('react-bootstrap/lib/Col')
+var PageHeader = require('react-bootstrap/lib/PageHeader')
 var React = require('react')
 var reduxForm = require('redux-form').default
 var Row = require('react-bootstrap/lib/Row')
@@ -19,7 +20,7 @@ var mapStateToProps = state => state
 var form = reduxForm({
   form: 'addTravel',
   fields: ['startDate', 'endDate', 'origin', 'destination', 'hotel', 'hasCar'],
-  touchOnChange: true,
+  touchOnChange: true, // react-widgets DateTimePicker doesn't blur
   validate(travel) {
     var errors = {}
     if (!travel.startDate) errors.startDate = 'Please enter a start date.'
@@ -37,7 +38,8 @@ var form = reduxForm({
 var AddTravel = React.createClass({
   getInitialState() {
     return {
-      fakeSaving: false
+      fakeSaving: false,
+      fakeSubmitted: null
     }
   },
   componentWillMount() {
@@ -61,17 +63,15 @@ var AddTravel = React.createClass({
     }
   },
   handleSubmit(data) {
-    this.setState({fakeSaving: true})
+    this.setState({fakeSaving: true, fakeSubmitted: data})
     setTimeout(() => this.setState({fakeSaving: false}), 2000)
   },
 
   render() {
     var {fields} = this.props
-    var {fakeSaving} = this.state
-    return <div className="AddTravel">
-      <p className="lead">
-        Enter travel below.
-      </p>
+    var {fakeSaving, fakeSubmitted} = this.state
+    return <div className="container">
+      <PageHeader>redux-form example</PageHeader>
       <form className="form-horizontal" onSubmit={this.props.handleSubmit(this.handleSubmit)}>
         <Row>
           <StaticField label="First Name:" value="Steve"/>
@@ -128,11 +128,17 @@ var AddTravel = React.createClass({
         </Row>
         <Row className="form-group">
           <Col sm={12} className="text-center">
-            <LoadingButton type="submit" bsSize="large" bsStyle="primary" disabled={fakeSaving}>
-              <img src={require('images/add-travel-button.png')}/> Add Travel
-            </LoadingButton>
+            <LoadingButton
+              bsSize="large"
+              bsStyle="primary"
+              label="Add Travel"
+              loading={fakeSaving}
+              loadingLabel="Adding Travel"
+              type="submit"
+            />
           </Col>
         </Row>
+        {fakeSubmitted && <pre><code>{JSON.stringify(fakeSubmitted, null, 2)}</code></pre>}
       </form>
     </div>
   }

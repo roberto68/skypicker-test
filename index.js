@@ -1,5 +1,6 @@
 require('bootstrap/dist/css/bootstrap.min.css')
 require('react-widgets/dist/css/react-widgets.css')
+require('./react-widgets-overrides.css')
 
 var React = require('react')
 var {Provider} = require('react-redux')
