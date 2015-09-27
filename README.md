@@ -10,3 +10,5 @@ cd redux-form-example
 npm install
 npm start
 ```
+
+## MIT Licensed
