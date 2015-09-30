@@ -1,9 +1,9 @@
 var Col = require('react-bootstrap/lib/Col')
 var PageHeader = require('react-bootstrap/lib/PageHeader')
 var React = require('react')
-var reduxForm = require('redux-form').default
 var Row = require('react-bootstrap/lib/Row')
 var {connect} = require('react-redux')
+var {reduxForm} = require('redux-form')
 
 var DateInput = require('./DateInput')
 var FormField = require('./FormField')
