@@ -7,19 +7,19 @@ var {reduxForm} = require('redux-form')
 
 var DateInput = require('./DateInput')
 var FormField = require('./FormField')
-var LoadingButton = require('./LoadingButton')
-var StaticField = require('./StaticField')
 var TextInput = require('./TextInput')
 
-var {zeroTime} = require('./utils')
-
+function zeroTime(date) {
+  date.setHours(0, 0, 0, 0)
+  return date
+}
 var TODAY = zeroTime(new Date())
 
 var mapStateToProps = state => state
 
 var form = reduxForm({
   form: 'addTravel',
-  fields: ['startDate', 'endDate', 'origin', 'destination', 'hotel', 'hasCar'],
+  fields: ['startDate', 'endDate', 'origin', 'destination',  'transfer'],
   touchOnChange: true, // react-widgets DateTimePicker doesn't blur
   validate(travel) {
     var errors = {}
@@ -48,8 +48,7 @@ var AddTravel = React.createClass({
       endDate: null,
       origin: '',
       destination: '',
-      hotel: '',
-      hasCar: 'no'
+      transfer: ''
     })
   },
 
@@ -62,7 +61,7 @@ var AddTravel = React.createClass({
       endDate.onChange(startDate)
     }
   },
-  handleSubmit(data) {
+  handleSubmit(data) { // handle real flight search !!!!1
     this.setState({fakeSaving: true, fakeSubmitted: data})
     setTimeout(() => this.setState({fakeSaving: false}), 2000)
   },
@@ -71,12 +70,8 @@ var AddTravel = React.createClass({
     var {fields} = this.props
     var {fakeSaving, fakeSubmitted} = this.state
     return <div className="container">
-      <PageHeader>redux-form example</PageHeader>
+      <PageHeader>Skypicker - search your flight</PageHeader>
       <form className="form-horizontal" onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-        <Row>
-          <StaticField label="First Name:" value="Steve"/>
-          <StaticField label="Last Name:" value="Test"/>
-        </Row>
         <Row>
           <DateInput
             afterChange={this.handleStartDateChange}
@@ -109,33 +104,19 @@ var AddTravel = React.createClass({
           />
         </Row>
         <Row>
-          <TextInput
-            disabled={fakeSaving}
-            field={fields.hotel}
-            help="Please enter name of hotel here. If no hotel booking exists or unknown put 'N/A'"
-            id="hotel"
-            label="Hotel:"
-          />
-          <FormField help="Please select 'Yes' if access to a car (rented or personal) during travel and 'No' if no access to a car during travel"
-                     label="Car:">
+          <FormField help="do you want direct or transfer flight?"
+                     label="Transfer:">
             <label className="radio-inline">
-              <input type="radio" name="hasCar" value="yes" onChange={fields.hasCar.onChange} disabled={fakeSaving}/> Yes
+              <input type="radio" name="transfer" value="yes" onChange={fields.transfer.onChange} disabled={fakeSaving}/> Yes
             </label>
             <label className="radio-inline">
-              <input type="radio" name="hasCar" value="no" onChange={fields.hasCar.onChange} defaultChecked disabled={fakeSaving}/> No
+              <input type="radio" name="transfer" value="no" onChange={fields.transfer.onChange} defaultChecked disabled={fakeSaving}/> No
             </label>
           </FormField>
         </Row>
         <Row className="form-group">
           <Col sm={12} className="text-center">
-            <LoadingButton
-              bsSize="large"
-              bsStyle="primary"
-              label="Add Travel"
-              loading={fakeSaving}
-              loadingLabel="Adding Travel"
-              type="submit"
-            />
+            
           </Col>
         </Row>
         {fakeSubmitted && <pre><code>{JSON.stringify(fakeSubmitted, null, 2)}</code></pre>}
