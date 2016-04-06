@@ -10,4 +10,4 @@ var configureStore = require('./configureStore')
 
 var store = configureStore()
 
-React.render(<Provider store={store}>{() => <AddTravel/>}</Provider>, document.querySelector('#apka'))
+React.render(<Provider store={store}>{() => <AddTravel/>}</Provider>, document.querySelector('#app'))
