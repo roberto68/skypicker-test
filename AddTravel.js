@@ -8,6 +8,7 @@ var {reduxForm} = require('redux-form')
 var DateInput = require('./DateInput')
 var FormField = require('./FormField')
 var TextInput = require('./TextInput')
+var LoadingButton = require('./LoadingButton')
 
 function zeroTime(date) {
   date.setHours(0, 0, 0, 0)
@@ -104,19 +105,17 @@ var AddTravel = React.createClass({
           />
         </Row>
         <Row>
-          <FormField help="do you want direct or transfer flight?"
-                     label="Transfer:">
-            <label className="radio-inline">
-              <input type="radio" name="transfer" value="yes" onChange={fields.transfer.onChange} disabled={fakeSaving}/> Yes
-            </label>
-            <label className="radio-inline">
-              <input type="radio" name="transfer" value="no" onChange={fields.transfer.onChange} defaultChecked disabled={fakeSaving}/> No
-            </label>
-          </FormField>
         </Row>
         <Row className="form-group">
           <Col sm={12} className="text-center">
-            
+            <LoadingButton
+                bsSize="large"
+                bsStyle="primary"
+                label="Search flight"
+                loading={fakeSaving}
+                loadingLabel="Search flight"
+                type="submit"
+              />
           </Col>
         </Row>
         {fakeSubmitted && <pre><code>{JSON.stringify(fakeSubmitted, null, 2)}</code></pre>}

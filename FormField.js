@@ -4,7 +4,7 @@ var React = require('react')
 var Row = require('react-bootstrap/lib/Row')
 var {PropTypes} = React
 
-var Help = require('./Help')
+var Loading = require('./Loading')
 
 var FIELD_EVENT_HANDLER = /^(?:on|handle)[A-Z]/
 
@@ -46,23 +46,32 @@ function shouldFormFieldUpdate(nextProps) {
   return false
 }
 
+/**
+ * A form field in a Bootstrap 3 two column layout.
+ *
+ * This component manages:
+ * - Bootstrap structure and classes
+ * - A loading indicator
+ * - A <Label> for the field
+ * - Validation error style and display
+ *
+ * The form input itself should be passed as content.
+ */
 var FormField = React.createClass({
   statics: {
     shouldFormFieldUpdate
   },
   propTypes: {
-
     // A redux-form field object
     field: PropTypes.object,
-    // Help text to be displayed next to the label
-    help: PropTypes.string,
     // An additional class to be applied to the input container
     inputClass: PropTypes.string,
     // Props used for the input (id is used to link the label to the input)
     inputProps: PropTypes.object,
     // Label text
     label: PropTypes.string,
-
+    // Loading state
+    loading: PropTypes.bool
   },
   getDefaultProps() {
     return {
@@ -71,13 +80,12 @@ var FormField = React.createClass({
     }
   },
   render() {
-    var {field, help, inputClass, inputProps, label} = this.props
+    var {field, inputClass, inputProps, label, loading} = this.props
     var error = field.touched && field.error
     return <Col sm={6}>
       <Row className={classNames('form-group', {'has-error': error})}>
         <Col sm={4} className="control-label">
-          <label htmlFor={inputProps.id}>{label}</label>
-          {help && <Help text={help}/>}
+          {loading && <Loading inline/>} <label htmlFor={inputProps.id}>{label}</label>
         </Col>
         <Col sm={8} className={inputClass}>
           {this.props.children}
