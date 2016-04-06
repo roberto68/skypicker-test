@@ -4,3 +4,4 @@ var {reducer: formReducer} = require('redux-form')
 module.exports = combineReducers({
   form: formReducer
 })
+
